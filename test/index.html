@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <!--meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" /-->
+        <meta name="viewport" content="width=device-width"/>
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Hello World</title>
+    </head>
+    <body>
+        <div class="app">
+            <h1>Apache Cordova</h1>
+            <div id="deviceready" class="blink">
+                <p class="event listening">Connecting to Device</p>
+                <p class="event received">Device is Ready</p>
+            </div>
+            
+            <!-- Beep once. -->
+            <button onclick="intel.xdk.notification.beep(1);">Beep 1</button>
+            
+            <!-- Beep five times. (On iPhone, tapping again while it is beeping
+                 should add another five beeps. -->
+            <button onclick="intel.xdk.notification.beep(5);">Beep 5</button>
+            
+            <!-- Make the phone vibrate. -->
+            <button onclick="intel.xdk.notification.vibrate();">Vibrate</button>
+            
+            <!-- Bring up a native alert box. Clicking `button` dismisses it. -->
+            <button onclick="intel.xdk.notification.alert('message', 'title', 'button'); intel.xdk.notification.alert('message 2', 'title 2', 'button 2'); intel.xdk.notification.alert('message 3', 'title 3', 'button 3');">Alert</button>
+
+            <!-- Bring up a native alert box. Clicking `button` dismisses it. -->
+            <button onclick="intel.xdk.notification.alert(); ">Bad Alert</button>
+            
+            <!-- 1. Bring up a native alert with title "title1" and message "id1".
+                    It may not be noticeable, because it will immediately be
+                    covered by
+                  2. a JS alert with title "index.html" and message "id2:busy".
+                  3. Click "OK" to dismiss the JS alert box and reveal the native
+                     alert.
+                  4. Click "ok" to dismiss the native alert and bring up a JS
+                     alert with title "index.html" and message "id1:true".
+                  5. Click "OK" to dismiss the JS alert.
+                 
+                  Repeat, changing step 4 to
+                  4. Click "cancel" to dismiss the native alert and bring up a JS
+                     alert with title "index.html" and message "id1:false". -->
+            <button onclick="intel.xdk.notification.confirm('message', 'id1', 'title1', 'ok', 'cancel');">Confirm</button>
+            
+            <!-- On Android, start a spinning activity indicator in the
+                 notification area. On iOS, start a spinning network activity
+                 indicator in the status bar. No effect if the indicator is
+                 already present. -->
+            <button onclick="intel.xdk.notification.showBusyIndicator();">Show Busy</button>
+            
+            <!-- Remove off the spinning indicator that was started by the
+                 "Show Busy" button. -->
+            <button onclick="intel.xdk.notification.hideBusyIndicator();">Hide Busy</button>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+    </body>
+</html>

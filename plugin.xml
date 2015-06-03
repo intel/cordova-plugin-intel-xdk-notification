@@ -1,11 +1,138 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2015 Intel Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file 
+except in compliance with the License. You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the 
+License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+either express or implied. See the License for the specific language governing permissions 
+and limitations under the License
+-->
+
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-  id="intel.xdk.notification"
-  version="0.0.1">
-  <name>Intel XDK Notification</name>
-  <description>Intel XDK Notification Plugin</description>
-  <license>Apache 2.0</license>
-  <keywords>intel,xdk,notification</keywords>
+    id="intel.xdk.notification"
+    version="1.1.1">
+    <name>Intel XDK Notification</name>
+    <description>Intel XDK Notification Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>Intel XDK, intel.xdk, notification</keywords>
+    <repo>https://github.com/01org/cordova-plugin-intel-xdk-notification.git</repo>
+    <issue></issue>
+
+    <js-module src="www/notification.js" name="notification">
+        <clobbers target="intel.xdk.notification" />
+    </js-module>
+
+   <!-- wp8 -->
+    <platform name="wp8">
+        <config-file target="Properties/WMAppManifest.xml" parent="/Deployment/App/Capabilities">
+        </config-file>
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="IntelXDKNotification">
+                <param name="wp-package" value="IntelXDKNotification"/>
+            </feature>
+        </config-file>
+
+        <source-file src="src/wp8/Notification.cs" />
+
+        <source-file src="src/wp8/beep.wav" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_e.png" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_n.png" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_ne.png" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_nw.png" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_s.png" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_se.png" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_sw.png" target-dir="../../notification"/>
+        <source-file src="src/wp8/spinner_w.png" target-dir="../../notification"/>
+    </platform>
+
+    <!-- windows -->
+    <platform name="windows">
+        <config-file target="package.appxmanifest" parent="/Package/Capabilities">
+            <DeviceCapability Name="location" />
+        </config-file>
+
+        <js-module src="src/windows8/notificationProxy.js" name="NotificationProxy">
+            <merges target="" />
+        </js-module>
+
+        <source-file src="src/windows8/beep.wav" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_e.png" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_n.png" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_ne.png" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_nw.png" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_s.png" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_se.png" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_sw.png" target-dir="../../notification"/>
+        <source-file src="src/windows8/spinner_w.png" target-dir="../../notification"/>
+   </platform>
+
+    <!-- windows8 -->
+    <platform name="windows8">
+        <config-file target="package.appxmanifest" parent="/Package/Capabilities">
+            <DeviceCapability Name="location" />
+        </config-file>
+
+        <js-module src="src/windows8/notificationProxy.js" name="NotificationProxy">
+            <merges target="" />
+        </js-module>
+
+        <source-file src="src/windows8/beep.wav" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_e.png" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_n.png" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_ne.png" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_nw.png" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_s.png" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_se.png" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_sw.png" target-dir="../../../notification"/>
+        <source-file src="src/windows8/spinner_w.png" target-dir="../../../notification"/>
+   </platform>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="IntelXDKNotification" >
+                <param name="android-package" value="com.intel.xdk.notification.Notification"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.VIBRATE" />
+        </config-file>
+
+        <source-file src="src/android/Notification.java" target-dir="src/com/intel/xdk/notification" />
+        <source-file src="src/android/xdkbeep.wav" target-dir="res/raw" />
+        <source-file src="src/android/spinner_e.png" target-dir="res/drawable" />
+        <source-file src="src/android/spinner_n.png" target-dir="res/drawable" />
+        <source-file src="src/android/spinner_ne.png" target-dir="res/drawable" />
+        <source-file src="src/android/spinner_nw.png" target-dir="res/drawable" />
+        <source-file src="src/android/spinner_s.png" target-dir="res/drawable" />
+        <source-file src="src/android/spinner_se.png" target-dir="res/drawable" />
+        <source-file src="src/android/spinner_sw.png" target-dir="res/drawable" />
+        <source-file src="src/android/spinner_w.png" target-dir="res/drawable" />
+    </platform>
+
+    <!-- iOS -->
+    <platform name="ios">
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="IntelXDKNotification">
+                <param name="ios-package" value="XDKNotification" />
+            </feature>
+        </config-file>
+    
+        <header-file src="src/ios/XDKNotification.h" />
+        <source-file src="src/ios/XDKNotification.m" />
+        <framework src="AVFoundation.framework" />
+        <framework src="AudioToolbox.framework" />
+        <resource-file src="src/ios/beep.wav" />
+    
+    </platform>
 
 </plugin>

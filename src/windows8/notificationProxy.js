@@ -37,19 +37,26 @@ and limitations under the License
         spinnerInterval: -1,
 
         alert: function (successCallback, errorCallback, params) {
-            if (module.exports.busy) {
-                module.exports.queue.push(params);
+            var me = module.exports;
+            if (me.busy) {
+                me.queue.push(params);
             } else {
                 if (params.count < 1 || typeof(params[0]) == "undefined" ) {
-                    var ev = document.createEvent('Events');
+                    /*var ev = document.createEvent('Events');
                     ev.initEvent('intel.xdk.notification.confirm',true,true);
                     ev.success=false;
                     ev.filename='';
                     ev.message = 'Wrong number of parameters';
-                    document.dispatchEvent(ev);
+                    document.dispatchEvent(ev);*/
+                    me.createAndDispatchEvent("intel.xdk.notification.confirm",
+                        {
+                            success: false,
+                            filename: "",
+                            message: "Wrong number of parameters"
+                        });
                     return;
                 } else {
-                    module.exports.busy = true;
+                    me.busy = true;
                     var message = params[0];
                     var title = (typeof(params[1]) == "undefined" ) ? "Alert" : params[1];
                     var button = (typeof (params[2]) == "undefined") ? "ok" : params[2];
@@ -77,27 +84,40 @@ and limitations under the License
         },
 
         confirm: function (successCallback, errorCallback, params) {
+            var me = module.exports;
             if (typeof(params[0])=="Undefined" ||
                 typeof(params[1])=="Undefined" ||
                 typeof(params[2])=="Undefined" ||
                 typeof(params[3])=="Undefined" ||
                 typeof (params[4]) == "Undefined") {
-                    var ev = document.createEvent('Events');
+                    /*var ev = document.createEvent('Events');
                     ev.initEvent('intel.xml.notification.confirm',true,true);
                     ev.success=false;
                     ev.filename = '';
                     ev.message = 'Wrong number of parameters';
-                    document.dispatchEvent(ev);
+                    document.dispatchEvent(ev);*/
+                    me.createAndDispatchEvent("intel.xml.notification.confirm",
+                        {
+                            success: false,
+                            filename: "",
+                            message: "Wrong number of parameters"
+                        });
                     return;
             }
 
             if (module.exports.confirmBusy) {
-                var e = document.createEvent('Events');
+                /*var e = document.createEvent('Events');
                 e.initEvent('intel.xdk.notification.confirm.busy', true, true);
                 e.success = false;
                 e.message = 'busy';
                 e.id = id;
-                document.dispatchEvent(e);
+                document.dispatchEvent(e);*/
+                me.createAndDispatchEvent("intel.xdk.notification.confirm.busy",
+                    {
+                        success: false,
+                        message: "busy",
+                        id: id
+                    });
                 return;
             } else {
                 var message = params[0];
@@ -125,12 +145,18 @@ and limitations under the License
                 messageDialog.showAsync().done(function () {
                     module.exports.confirmBusy = false;
 
-                    var e = document.createEvent('Events');
+                    /*var e = document.createEvent('Events');
                     e.initEvent('intel.xdk.notification.confirm', true, true);
                     e.success = module.exports.confirmResponse;
                     e.answer = (module.exports.confirmResponse) ? "true" : "false";
                     e.id = id;
-                    document.dispatchEvent(e);
+                    document.dispatchEvent(e);*/
+                    me.createAndDispatchEvent("intel.xdk.notification.confirm",
+                        {
+                            success: module.exports.confirmResponse,
+                            answer: (module.exports.confirmResponse) ? "true" : "false",
+                            id: id
+                        });
                 });
             }
         },
@@ -226,6 +252,17 @@ and limitations under the License
             //var params = [].slice.call(module.exports.queue[0]);
             me.alert(null, null, me.queue[0]);
             me.queue.splice(0, 1);
+        },
+
+        createAndDispatchEvent: function (name, properties) {
+            var e = document.createEvent('Events');
+            e.initEvent(name, true, true);
+            if (typeof properties === 'object') {
+                for (key in properties) {
+                    e[key] = properties[key];
+                }
+            }
+            document.dispatchEvent(e);
         }
     };
 
